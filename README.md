@@ -1,2 +1,2 @@
-# Bart-Terpstra-corona
+# corona
 Corona case study repository
