@@ -7,6 +7,7 @@ plt.rcParams['lines.markeredgewidth'] = 1  # to fix issue with seaborn box plots
 
 import numpy as np
 from tqdm.notebook import tqdm
+import pandas as pd
 
 # Log file to keep track of output
 log = open("log.txt",'w') # 'a' will append
@@ -117,9 +118,9 @@ for time_step in tqdm(range(days)):
     # Update the columns S, I, R
     # First and last line prevent impossible (negative) values
     new_infect = np.where(new_infect>SIR_sim[:, 0], SIR_sim[:, 0], new_infect)
-    SIR_sim[:, 0] = SIR_sim[:, 0] - new_infect
-    SIR_sim[:, 1] = SIR_sim[:, 1] + new_infect - new_recovered
-    SIR_sim[:, 2] = SIR_sim[:, 2] + new_recovered
+    SIR_sim[:, 0] = SIR_sim[:, 0] - new_infect                  # Susceptible
+    SIR_sim[:, 1] = SIR_sim[:, 1] + new_infect - new_recovered  # Infected
+    SIR_sim[:, 2] = SIR_sim[:, 2] + new_recovered               # Recovered
     SIR_sim = np.where(SIR_sim<0,0,SIR_sim)
 
     # Recompute the normalized SIR matrix
@@ -145,6 +146,11 @@ log.write('8.2) --- Final rounded SIR matrix: \n'+str(SIR_sim.round(1)))
 
 # Close the log
 log.close()
+
+# Create a dataframe
+data = {'Susceptible': susceptible_pop_norm, 'Infected': infected_pop_norm, 'Recovered': recovered_pop_norm}
+df = pd.DataFrame(data)
+df.to_csv('sir_values.csv')
 
 # Plotting
 fig = plt.figure()
