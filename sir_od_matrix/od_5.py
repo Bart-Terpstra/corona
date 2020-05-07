@@ -180,6 +180,7 @@ df_w.to_csv(r'C:\Users\20195526\Documents\PDEng Angeliki\Projects\Case Studies\2
 # Save the infections per municipality
 df_map_I_w = pd.DataFrame(map_I_w)
 np.save(r'C:\Users\20195526\Documents\PDEng Angeliki\Projects\Case Studies\2. Corona Virus Module/I_62_101_W', map_I_w)
+df_map_I_w.to_csv(r'C:\Users\20195526\Documents\PDEng Angeliki\Projects\Case Studies\2. Corona Virus Module/I_62_101_W.csv')
 
 
 
@@ -357,6 +358,8 @@ df_nw.to_csv(r'C:\Users\20195526\Documents\PDEng Angeliki\Projects\Case Studies\
 df_map_I_nw = pd.DataFrame(map_I_nw)
 np.save(r'C:\Users\20195526\Documents\PDEng Angeliki\Projects\Case Studies\2. Corona Virus Module/I_62_101_NW', map_I_nw)
 
+
+''' COMBINED '''
 # Combined DataFrames of Working & Non_Working
 df_w_pop = df_w*working_pop_pm_vec[0]
 df_nw_pop = df_nw*non_working_pop_pm_vec[0]
@@ -370,6 +373,8 @@ total_population= working_pop_pm + non_working_pop_pm
 
 map_I = (map_I_w*working_pop_pm + map_I_nw*non_working_pop_pm) / total_population
 np.save(r'C:\Users\20195526\Documents\PDEng Angeliki\Projects\Case Studies\2. Corona Virus Module/I_62_101_COMBINED', map_I_nw)
+df_map_I = pd.DataFrame(map_I)
+df_map_I.to_csv(r'C:\Users\20195526\Documents\PDEng Angeliki\Projects\Case Studies\2. Corona Virus Module/I_62_101_COMBINED.csv')
 
 # Plotting
 fig = plt.figure()
