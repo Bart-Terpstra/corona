@@ -372,7 +372,7 @@ non_working_pop_pm = np.tile(non_working_pop_pm_vec,(101,1)).T
 total_population= working_pop_pm + non_working_pop_pm
 
 map_I = (map_I_w*working_pop_pm + map_I_nw*non_working_pop_pm) / total_population
-np.save('output/I_62_101_COMBINED', map_I_nw)
+np.save('output/I_62_101_COMBINED', map_I)
 df_map_I = pd.DataFrame(map_I)
 df_map_I.to_csv('output/I_62_101_COMBINED.csv')
 
