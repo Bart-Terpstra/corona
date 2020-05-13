@@ -13,7 +13,7 @@ import pandas as pd
 log = open("log_62_munies.txt",'w') # 'a' will append
 
 # Read the OD_w matrix of the 62 municipalities
-OD_w = pd.read_excel('data_ang/od_matrix_working.xlsx', index_col='origin')
+OD_w = pd.read_excel(r'C:\Users\20195526\Documents\GitHub\corona\sir_od_matrix\data_ang\od_matrix_working.xlsx', index_col='origin')
 OD_w = OD_w.to_numpy()
 working_pop_pm_vec = np.sum(OD_w, axis = 1)
 thresh_w = np.sum(OD_w, axis = 1).max() #150000#85000#1000       # determines where the outbreak starts
@@ -175,12 +175,12 @@ log.close()
 # Create a dataframe
 data_w = {'Susceptible': susceptible_pop_norm_w, 'Infected': infected_pop_norm_w, 'Recovered': recovered_pop_norm_w, 'Dead': dead_pop_norm_w}
 df_w = pd.DataFrame(data_w)
-df_w.to_csv('output/SIR_W_values_62_munies_SIR_W.csv')
+df_w.to_csv(r'C:\Users\20195526\Documents\GitHub\corona\sir_od_matrix\data_ang\SIR_W_values_62_munies_SIR_W.csv')
 
 # Save the infections per municipality
 df_map_I_w = pd.DataFrame(map_I_w)
-np.save('output/I_62_101_W', map_I_w)
-df_map_I_w.to_csv('output/I_62_101_W.csv')
+np.save(r'C:\Users\20195526\Documents\GitHub\corona\sir_od_matrix\data_ang\I_62_101_W', map_I_w)
+df_map_I_w.to_csv(r'C:\Users\20195526\Documents\GitHub\corona\sir_od_matrix\data_ang\I_62_101_W.csv')
 
 
 
@@ -190,7 +190,7 @@ df_map_I_w.to_csv('output/I_62_101_W.csv')
 log = open("log_62_munies.txt",'w') # 'a' will append
 
 # Read the OD_nw matrix of the 62 municipalities
-OD_nw = pd.read_excel('data_ang/od_matrix_no_working.xlsx', index_col='origin')
+OD_nw = pd.read_excel(r'C:\Users\20195526\Documents\GitHub\corona\sir_od_matrix\data_ang\od_matrix_no_working.xlsx', index_col='origin')
 OD_nw = OD_nw.to_numpy()
 non_working_pop_pm_vec = np.sum(OD_nw, axis = 1)
 thresh_nw = np.sum(OD_nw, axis = 1).max() #150000#85000#1000       # determines where the outbreak starts
@@ -352,11 +352,11 @@ log.close()
 # Create a dataframe
 data_nw = {'Susceptible': susceptible_pop_norm_nw, 'Infected': infected_pop_norm_nw, 'Recovered': recovered_pop_norm_nw, 'Dead': dead_pop_norm_nw}
 df_nw = pd.DataFrame(data_nw)
-df_nw.to_csv('output/SIR_NW_values_62_munies_SIR_NW.csv')
+df_nw.to_csv(r'C:\Users\20195526\Documents\GitHub\corona\sir_od_matrix\data_ang\SIR_NW_values_62_munies_SIR_NW.csv')
 
 # Save the infections per municipality
 df_map_I_nw = pd.DataFrame(map_I_nw)
-np.save('output/I_62_101_NW', map_I_nw)
+np.save(r'C:\Users\20195526\Documents\GitHub\corona\sir_od_matrix\data_ang\I_62_101_NW', map_I_nw)
 
 
 ''' COMBINED '''
@@ -364,7 +364,7 @@ np.save('output/I_62_101_NW', map_I_nw)
 df_w_pop = df_w*working_pop_pm_vec[0]
 df_nw_pop = df_nw*non_working_pop_pm_vec[0]
 df_all = (df_w_pop + df_nw_pop) / (working_pop_pm_vec[0] + non_working_pop_pm_vec[0])
-df_all.to_csv('output/SIR_ALL_values_62_munies_SIR_ALL.csv')
+df_all.to_csv(r'C:\Users\20195526\Documents\GitHub\corona\sir_od_matrix\data_ang\SIR_ALL_values_62_munies_SIR_ALL.csv')
 
 # Combine INFECTED working + non_working population FOR THE MAP
 working_pop_pm = np.tile(working_pop_pm_vec,(101,1)).T
@@ -372,9 +372,9 @@ non_working_pop_pm = np.tile(non_working_pop_pm_vec,(101,1)).T
 total_population= working_pop_pm + non_working_pop_pm
 
 map_I = (map_I_w*working_pop_pm + map_I_nw*non_working_pop_pm) / total_population
-np.save('output/I_62_101_COMBINED', map_I)
+np.save(r'C:\Users\20195526\Documents\GitHub\corona\sir_od_matrix\data_ang\I_62_101_COMBINED', map_I)
 df_map_I = pd.DataFrame(map_I)
-df_map_I.to_csv('output/I_62_101_COMBINED.csv')
+df_map_I.to_csv(r'C:\Users\20195526\Documents\GitHub\corona\sir_od_matrix\data_ang\I_62_101_COMBINED.csv')
 
 # Plotting
 fig = plt.figure()
@@ -384,6 +384,7 @@ plt.ylabel('Population fraction')
 plt.xlabel('Time (days)')
 plt.legend([ "Susceptible",'Infected', 'Recovered', 'Dead'])
 plt.title(r'SIR_W MOD_wel with $a={}$, $b={}$, $y={}$, $dr_w={}$'.format(public_trans_w, beta_w, gamma_w, dr_w))
+plt.show()
 
 fig_nw = plt.figure()
 to_plot_nw = np.stack([susceptible_pop_norm_nw, infected_pop_norm_nw, recovered_pop_norm_nw, dead_pop_norm_nw]).T
@@ -392,6 +393,7 @@ plt.ylabel('Population fraction')
 plt.xlabel('Time (days)')
 plt.legend([ "Susceptible",'Infected', 'Recovered', 'Dead'])
 plt.title(r'SIR_NW Model with $a={}$, $b={}$, $y={}$, $dr_nw={}$'.format(public_trans_nw, beta_nw, gamma_nw, dr_nw))
+plt.show()
 
 fig_all = plt.figure()
 to_plot_all = np.stack([df_all['Susceptible'], df_all['Infected'], df_all['Recovered'], df_all['Dead']]).T
